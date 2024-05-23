@@ -47,7 +47,7 @@ class MyButton(Button):
         self.is_mine = False  # есть ли мина
         self.count_bomb = 0  # количество бомб вокруг клетки
         self.is_open = False  # открывали ли кнопку
-        self.count_flag = 0  # TODO: я забыл че тут(вроде подсчет флажков или разминирования)
+        self.count_flag = 0  # подсчет флажков или разминирования
         self.time_start = 0  # время начала игры
         self.is_flag = False  # разминировали или нет
 
@@ -197,9 +197,8 @@ class MineSweeper:
         Label(win_settings, text='       Количество колонок:').grid(row=1, column=0)
         Label(win_settings, text='Количество мин:').grid(row=2, column=0)
 
-        # FIXME: ПОФИГ я уже по другому сделал. НЕ ЗАБУДЬ, что я добавил str к каждому атрибуту класса!!!!!!!
         row_entry = Entry(win_settings)
-        row_entry.insert(0, str(self.ROWS))  # Попробовать ROWS_STR чтоб не было Expected type 'str', got 'int'!!!
+        row_entry.insert(0, str(self.ROWS))
         row_entry.grid(row=0, columnspan=3, column=1, padx=20, pady=20, stick='wens')
 
         column_entry = Entry(win_settings)
@@ -281,7 +280,7 @@ class MineSweeper:
         except FileNotFoundError:
             showinfo('Статистика', 'Файл с логами не найден!')
 
-    def right_click(self, event):  # TODO: Здесь добавлен event, ВНИМАТЕЛЬНО!!! (так как был bind)
+    def right_click(self, event):
         curr_btn = event.widget
         if self.IS_GAMEOVER:
             return  # выходим/завершаем
