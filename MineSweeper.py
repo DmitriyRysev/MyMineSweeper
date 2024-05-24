@@ -38,9 +38,9 @@ colors = {
 """
 
 
-class MyButton(Button):
+class FieldButton(Button):
     def __init__(self, master, x, y, number, *args, **kwargs):
-        super(MyButton, self).__init__(master, width=3, font=('Courier New bold', 15), *args, **kwargs, bd=3)
+        super(FieldButton, self).__init__(master, width=3, font=('Courier New bold', 15), *args, **kwargs, bd=3)
         self.x = x
         self.y = y
         self.number = number
@@ -100,6 +100,7 @@ class MineSweeper:
     bomb_color = ImageTk.PhotoImage(Image.open('images/bomb_color.png'))
     bomb_nocolor = ImageTk.PhotoImage(Image.open('images/bomb_nocolor.png'))
 
+    '''Инициализация игры'''
     def __init__(self):
         self.timer = None
         self.index_mines = None
@@ -125,13 +126,14 @@ class MineSweeper:
             temp = []
             for j in range(self.COLUMNS + 2):
                 number += 1
-                btn = MyButton(self.win, x=i, y=j, number=number)
+                btn = FieldButton(self.win, x=i, y=j, number=number)
                 btn.config(command=lambda button=btn: self.click(button))
                 btn.bind('<Button-3>', self.right_click)
                 temp.append(btn)
                 # btn.config(bg='#FFFFFF')
             self.buttons.append(temp)
 
+    '''Создание виджетов'''
     def create_widget(self):
         count = 1
         self.flag_position = []
@@ -165,18 +167,21 @@ class MineSweeper:
         self.lbl_mines.grid(row=0, column=((self.COLUMNS // 2) + 1), columnspan=(self.COLUMNS // 2))
         self.update_window_size()
 
+    '''Запуск таймера'''
     def start_timer(self):
         if not self.timer_started:
             self.time_start = time.time()
             self.timer_started = True
             self.update_time()
 
+    '''Обновление отображения времени'''
     def update_time(self):
         if not self.IS_GAMEOVER and self.timer_started:
             timer = time.time() - self.time_start
             self.lbl_time.config(text=f'Секунд прошло: {int(timer)}')
             self.win.after(1000000, self.update_time)
 
+    '''Создание окна настроек'''
     def create_setting_win(self):
         def change_lvl(mines, row, column):
             row_entry.delete(0, END)
@@ -190,7 +195,9 @@ class MineSweeper:
 
         win_settings = Toplevel(self.win)
         win_settings.title('Настройки')
-        win_settings.geometry('400x280+438+214')
+        photo = PhotoImage(file='images/settings_icon.png')
+        win_settings.iconphoto(False, photo)
+        win_settings.geometry('400x280+438+220')
         win_settings.resizable(False, False)  # разрешаем изменять размер окна
 
         Label(win_settings, text='  Количество строк:').grid(row=0, column=0)
@@ -227,6 +234,7 @@ class MineSweeper:
         for i in range(2):
             win_settings.grid_columnconfigure(i, weight=1)
 
+    '''Перезагрузка путем сброса текущего состояния игры'''
     def reload(self):
         [child.destroy() for child in self.win.winfo_children()]  # типа перегруза для удаления применения
         self.__init__()
@@ -310,7 +318,7 @@ class MineSweeper:
             with open('logs.txt', 'a') as logs:
                 logs.write(f'Результат - Победа. Время: {self.timer:.0f} секунд\n')
             self.reload()
-        self.lbl_mines.config(text=f'Флагов: {self.count_flag}')
+        self.lbl_mines.config(text=f'Флагов осталось: {self.count_flag}')
 
     def count_mines_buttons(self):  # алгоритм проверки соседей на мины
         for i in range(1, self.ROWS + 1):
@@ -334,7 +342,7 @@ class MineSweeper:
                     correct_flags += 1
         return correct_flags
 
-    def click(self, clicked_button: MyButton):
+    def click(self, clicked_button: FieldButton):
         if not self.IS_GAMEOVER:
             if not self.timer_started:
                 self.start_timer()
@@ -393,7 +401,7 @@ class MineSweeper:
         random.shuffle(indexes)
         return indexes[:self.MINES]
 
-    def find_empty_cells(self, btn: MyButton):
+    def find_empty_cells(self, btn: FieldButton):
         queue = [btn]
         while queue:
             curr_btn = queue.pop()
@@ -463,8 +471,8 @@ class MineSweeper:
 
     def start(self):
         self.create_widget()
-        win_width = 230  # Ширина окна
-        win_height = 260  # Высота окна
+        win_width = 250  # Ширина окна
+        win_height = 275  # Высота окна
         screen_width = self.win.winfo_screenwidth()
         screen_height = self.win.winfo_screenheight()
         x = (screen_width - win_width) // 2
