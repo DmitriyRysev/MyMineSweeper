@@ -66,17 +66,8 @@ class FieldButton(Button):
 
 """
         
-        '''create_stat_win(): Создание окна статистики.'''
-        '''right_click(event): Обработчик правого клика мыши.'''
-        '''count_mines_buttons(): Подсчет мин вокруг каждой клетки.'''
-        '''count_correct_flags(): Подсчет правильно установленных флажков.'''
-        '''click(clicked_button): Обработчик клика мыши.'''
-        '''get_mine_places(exclude_number): Получение местоположения мин.'''
-        '''find_empty_cells(btn): Поиск пустых клеток.'''
-        '''insert_mines(number): Размещение мин на поле.'''
-        '''open_all_buttons(): Открытие всех кнопок в конце игры.'''
-        '''tick(): Обновление таймера.'''
-        '''start(): Запуск игры.'''
+        
+        
 """
 
 
@@ -259,6 +250,8 @@ class MineSweeper:
         self.reload()
         self.update_window_size()
 
+    '''create_stat_win(): Создание окна статистики.'''
+
     @staticmethod
     def create_stat_win():
         try:
@@ -292,6 +285,8 @@ class MineSweeper:
         except FileNotFoundError:
             showinfo('Статистика', 'Файл с логами не найден!')
 
+    '''right_click(event): Обработка правого клика мыши.'''
+
     def right_click(self, event):
         curr_btn = event.widget
         if self.IS_GAMEOVER:
@@ -324,6 +319,8 @@ class MineSweeper:
             self.reload()
         self.lbl_mines.config(text=f'Флагов осталось: {self.count_flag}')
 
+    '''count_mines_buttons(): Подсчет мин вокруг каждой клетки.'''
+
     def count_mines_buttons(self):  # алгоритм проверки соседей на мины
         for i in range(1, self.ROWS + 1):
             for j in range(1, self.COLUMNS + 1):
@@ -337,6 +334,8 @@ class MineSweeper:
                                 count_bomb += 1
                 btn.count_bomb = count_bomb
 
+    '''count_correct_flags(): Подсчет правильно установленных флажков.'''
+
     def count_correct_flags(self):
         correct_flags = 0
         for i in range(1, self.ROWS + 1):
@@ -345,6 +344,8 @@ class MineSweeper:
                 if btn.is_mine and btn.is_flag:
                     correct_flags += 1
         return correct_flags
+
+    '''click(clicked_button): Обработка левого клика мыши.'''
 
     def click(self, clicked_button: FieldButton):
         if not self.IS_GAMEOVER:
@@ -399,11 +400,15 @@ class MineSweeper:
         color = colors.get(clicked_button.count_bomb, 'black')
         clicked_button.config(fg=color, relief=SUNKEN)
 
+    '''get_mine_places(exclude_number): Получение местоположения мин.'''
+
     def get_mine_places(self, exclude_number: int):  # эти два метода отвечают за расположение мин
         indexes = list(range(1, self.COLUMNS * self.ROWS + 1))
         indexes.remove(exclude_number)
         random.shuffle(indexes)
         return indexes[:self.MINES]
+
+    '''find_empty_cells(btn): Поиск пустых клеток.'''
 
     def find_empty_cells(self, btn: FieldButton):
         queue = [btn]
@@ -425,6 +430,8 @@ class MineSweeper:
                                 1 <= next_btn.y <= self.COLUMNS and next_btn not in queue:
                             queue.append(next_btn)
 
+    '''insert_mines(number): Размещение мин на поле.'''
+
     def insert_mines(self, number: int):  # Чтобы в клавишу мина не попадала
         self.index_mines = self.get_mine_places(number)
         # print(f'Мины в {self.index_mines}')
@@ -433,6 +440,8 @@ class MineSweeper:
                 btn = self.buttons[i][j]
                 if btn.number in self.index_mines:
                     btn.is_mine = True
+
+    '''open_all_buttons(): Открытие всех кнопок в конце игры.'''
 
     def open_all_buttons(self):
         for i in range(1, self.ROWS + 1):
@@ -457,12 +466,16 @@ class MineSweeper:
     #                 print(btn.count_bomb, end='')
     #         print()
 
+    '''tick(): Обновление таймера.'''
+
     def tick(self):
         if self.IS_GAMEOVER:
             return
         self.timer = time.time() - self.time_start
         self.lbl_time.config(text=f'Секунд прошло: {self.timer:.0f}')
         self.lbl_time.after(500, self.tick)
+
+    '''update_window_size(): Обновление размеров окон.'''
 
     def update_window_size(self):
         win_width = self.COLUMNS * 40  # Ширина окна
@@ -472,6 +485,8 @@ class MineSweeper:
         x = (screen_width - win_width) // 2
         y = (screen_height - win_height) // 2
         self.win.geometry(f"{win_width}x{win_height}+{x}+{y}")
+
+    '''start(): Запуск игры.'''
 
     def start(self):
         self.create_widget()
