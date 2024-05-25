@@ -61,27 +61,23 @@ class FieldButton(Button):
         MINES (int): Количество мин на поле.
         IS_GAMEOVER (bool): Флаг, показывающий, завершена ли игра.
         IS_FIRST_CLICK (bool): Флаг, показывающий, был ли сделан первый клик.
-
-    Методы:
-        __init__(): Инициализация игры.
-        create_widget(): Создание виджетов игры.
-        start_timer(): Запуск таймера.
-        update_time(): Обновление отображения времени.
-        create_setting_win(): Создание окна настроек.
-        reload(): Перезапуск игры с новыми настройками.
-        change_settings(row, column, mines): Изменение настроек игры.
-        create_stat_win(): Создание окна статистики.
-        right_click(event): Обработчик правого клика мыши.
-        count_mines_buttons(): Подсчет мин вокруг каждой клетки.
-        count_correct_flags(): Подсчет правильно установленных флажков.
-        click(clicked_button): Обработчик клика мыши.
-        get_mine_places(exclude_number): Получение местоположения мин.
-        find_empty_cells(btn): Поиск пустых клеток.
-        insert_mines(number): Размещение мин на поле.
-        open_all_buttons(): Открытие всех кнопок в конце игры.
-        tick(): Обновление таймера.
-        start(): Запуск игры.
     """
+
+
+"""
+        
+        '''create_stat_win(): Создание окна статистики.'''
+        '''right_click(event): Обработчик правого клика мыши.'''
+        '''count_mines_buttons(): Подсчет мин вокруг каждой клетки.'''
+        '''count_correct_flags(): Подсчет правильно установленных флажков.'''
+        '''click(clicked_button): Обработчик клика мыши.'''
+        '''get_mine_places(exclude_number): Получение местоположения мин.'''
+        '''find_empty_cells(btn): Поиск пустых клеток.'''
+        '''insert_mines(number): Размещение мин на поле.'''
+        '''open_all_buttons(): Открытие всех кнопок в конце игры.'''
+        '''tick(): Обновление таймера.'''
+        '''start(): Запуск игры.'''
+"""
 
 
 class MineSweeper:
@@ -100,7 +96,8 @@ class MineSweeper:
     bomb_color = ImageTk.PhotoImage(Image.open('images/bomb_color.png'))
     bomb_nocolor = ImageTk.PhotoImage(Image.open('images/bomb_nocolor.png'))
 
-    '''Инициализация игры'''
+    '''__init__(): Инициализация игры.'''
+
     def __init__(self):
         self.timer = None
         self.index_mines = None
@@ -133,7 +130,8 @@ class MineSweeper:
                 # btn.config(bg='#FFFFFF')
             self.buttons.append(temp)
 
-    '''Создание виджетов'''
+    '''create_widget(): Создание виджетов игры.'''
+
     def create_widget(self):
         count = 1
         self.flag_position = []
@@ -167,21 +165,24 @@ class MineSweeper:
         self.lbl_mines.grid(row=0, column=((self.COLUMNS // 2) + 1), columnspan=(self.COLUMNS // 2))
         self.update_window_size()
 
-    '''Запуск таймера'''
+    '''start_timer(): Запуск таймера.'''
+
     def start_timer(self):
         if not self.timer_started:
             self.time_start = time.time()
             self.timer_started = True
             self.update_time()
 
-    '''Обновление отображения времени'''
+    '''update_time(): Обновление отображения времени.'''
+
     def update_time(self):
         if not self.IS_GAMEOVER and self.timer_started:
             timer = time.time() - self.time_start
             self.lbl_time.config(text=f'Секунд прошло: {int(timer)}')
             self.win.after(1000000, self.update_time)
 
-    '''Создание окна настроек'''
+    '''create_setting_win(): Создание окна настроек.'''
+
     def create_setting_win(self):
         def change_lvl(mines, row, column):
             row_entry.delete(0, END)
@@ -234,13 +235,16 @@ class MineSweeper:
         for i in range(2):
             win_settings.grid_columnconfigure(i, weight=1)
 
-    '''Перезагрузка путем сброса текущего состояния игры'''
+    '''reload(): Перезагрузка путем сброса текущего состояния игры'''
+
     def reload(self):
         [child.destroy() for child in self.win.winfo_children()]  # типа перегруза для удаления применения
         self.__init__()
         self.create_widget()
         self.IS_GAMEOVER = False
         self.IS_FIRST_CLICK = True  # После нажатия - False. Перезагрузка _ возврат флага
+
+    '''change_settings(row, column, mines): Изменение настроек игры.'''
 
     def change_settings(self, row: Entry, column: Entry, mines: Entry):  # теперь ошибки обрабатываются, все ок
         try:
