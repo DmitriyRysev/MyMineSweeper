@@ -51,7 +51,8 @@ class FieldButton(Button):
         self.time_start = 0  # время начала игры
         self.is_flag = False  # разминировали или нет
 
-    """
+
+"""
     Класс игры в сапер.
 
     Атрибуты:
@@ -61,13 +62,6 @@ class FieldButton(Button):
         MINES (int): Количество мин на поле.
         IS_GAMEOVER (bool): Флаг, показывающий, завершена ли игра.
         IS_FIRST_CLICK (bool): Флаг, показывающий, был ли сделан первый клик.
-    """
-
-
-"""
-        
-        
-        
 """
 
 
@@ -96,14 +90,6 @@ class MineSweeper:
         self.lbl_time = None
         self.flag_position = None
         self.count_flag = None
-
-        # self.lbl_mines = None
-        # self.index_mines = None
-        # self.timer = time.time() - self.time_start
-        # self.lbl_time = Label(text='Время: 0')
-        # self.count_flag = self.MINES
-        # self.flag_position = []
-
         self.win_destroy = None
         self.buttons = []
         self.timer_started = False
@@ -455,16 +441,6 @@ class MineSweeper:
                 elif btn.count_bomb in colors:
                     color = colors.get(btn.count_bomb, 'black')
                     btn.config(text=btn.count_bomb, fg=color, relief=SUNKEN)
-
-    # def print_mines(self):
-    #     for i in range(1, self.ROWS + 1):
-    #         for j in range(1, self.COLUMNS + 1):
-    #             btn = self.buttons[i][j]
-    #             if btn.is_mine:
-    #                 print("b", end='')
-    #             else:
-    #                 print(btn.count_bomb, end='')
-    #         print()
 
     '''tick(): Обновление таймера.'''
 
