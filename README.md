@@ -8,7 +8,14 @@ Contents:
 
 - *MineSweeper.py* - The actual python program
 - *images* - Images ready for usage with Tkinter
->
-### Requirements:
-You have to install library Pillow 
 
+### Requirements:
+In order to install this package, you need to install
+
+- `Pillow`
+  
+__From PyPI (the latest stable version)__
+
+```bash
+pip install Pillow
+```
