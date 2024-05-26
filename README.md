@@ -1,5 +1,7 @@
 # MineSweeper Tkinter in Python
 > MineSweeper game written in Python using Tkinter GUI library.
+> 
+[YouTube gameplay video](https://youtu.be/rIMqOU_o85Q?si=CH-4gzBSyTedA5jX)
 
 ![alt text](images/SH_Git.png)
 
