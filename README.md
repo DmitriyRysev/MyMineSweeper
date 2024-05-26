@@ -3,7 +3,7 @@
 > 
 [YouTube gameplay video](https://youtu.be/rIMqOU_o85Q?si=CH-4gzBSyTedA5jX)
 
-![alt text](images/SH_Git.png)
+<img src="images/SH_Git.png" width="250">
 
 Contents:
 ----------
