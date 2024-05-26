@@ -67,6 +67,7 @@ class FieldButton(Button):
 
 class MineSweeper:
     win = Tk()
+    win.resizable(False, False)
     win.title('Сапер')
     photo = PhotoImage(file='images/MS_icon.png')
     win.iconphoto(False, photo)
@@ -343,7 +344,6 @@ class MineSweeper:
             self.time_start = time.time()
             self.insert_mines(clicked_button.number)
             self.count_mines_buttons()
-            # self.print_mines()
             self.tick()
             self.IS_FIRST_CLICK = False
 
@@ -476,5 +476,6 @@ class MineSweeper:
         self.win.mainloop()
 
 
-game = MineSweeper()
-game.start()
+if __name__ == "__main__":
+    game = MineSweeper()
+    game.start()
